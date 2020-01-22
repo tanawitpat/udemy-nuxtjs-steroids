@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h1>Hello World</h1>
+    <nuxt-link to="/users">Hello World</nuxt-link>
+    <button @click="$router.push('/products')">Go To Products</button>
   </div>
 </template>
 
