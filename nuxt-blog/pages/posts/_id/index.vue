@@ -9,33 +9,29 @@
       <p>Content of the post</p>
       <div class>
         Let me know what you think about the post, send a mail to
-        <a
-          href="mailto:tanawit.pat@gmail.com"
-        >tanawit.pat@gmail.com</a>
+        <a href="mailto:tanawit.pat@gmail.com">tanawit.pat@gmail.com</a>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  asyncData(context, callback) {
-    setTimeout(() => {
-      callback(
-        null,
-        {
-          loadedPost: {
-            id: '1',
-            title: 'First Post (ID: ' + context.route.params.id + ')',
-            previewText: 'This is our first post!',
-            author: 'Tanawit',
-            updatedDate: new Date(),
-            content: "Hi, I'm Tanawit. This is my first post :)"
-          }
-        },
-        1000
+  asyncData(context) {
+    return axios
+      .get(
+        'https://nuxtjs-steriods.firebaseio.com/posts/' +
+          context.params.id +
+          '.json'
       )
-    })
+      .then(res => {
+        return {
+          loadedPost: res.data
+        }
+      })
+      .catch(e => context.error(e))
   }
 }
 </script>

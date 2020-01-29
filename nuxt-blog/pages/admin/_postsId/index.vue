@@ -1,12 +1,13 @@
 <template>
   <div class="admin-post-page">
     <section class="update-form">
-      <AdminPostForm :post="loadedPost" />
+      <AdminPostForm :post="loadedPost" @submit="onSubmitted" />
     </section>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import AdminPostForm from '@/components/Admin/AdminPostForm'
 
 export default {
@@ -14,16 +15,46 @@ export default {
   components: {
     AdminPostForm
   },
-  data() {
-    return {
-      loadedPost: {
-        author: 'Tanawit',
-        title: 'My awesome post',
-        content: 'Super amazing, thanks for that!',
-        thumbnailLink:
-          'https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-1.2.1&auto=format&fit=crop&w=1430&q=80'
-      }
+  asyncData(context) {
+    return axios
+      .get(
+        'https://nuxtjs-steriods.firebaseio.com/posts/' +
+          context.params.postsId +
+          '.json'
+      )
+      .then(res => {
+        return {
+          loadedPost: { ...res.data, id: context.params.postId }
+        }
+      })
+      .catch(e => context.error())
+  },
+  methods: {
+    onSubmitted(editedPost) {
+      axios
+        .put(
+          'https://nuxtjs-steriods.firebaseio.com/posts/' +
+            this.$route.params.postsId +
+            '.json',
+          editedPost
+        )
+        .then(res => {
+          this.$router.push('/admin')
+        })
     }
   }
 }
 </script>
+
+<style scoped>
+.update-form {
+  width: 90%;
+  margin: 20px auto;
+}
+
+@media (min-width: 768px) {
+  .update-form {
+    width: 500px;
+  }
+}
+</style>
