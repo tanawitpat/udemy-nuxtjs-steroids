@@ -1,17 +1,17 @@
 export default {
-  mode: 'universal',
+  mode: 'universal', // universal
   /*
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: "Tanawit's Blog",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
+        content: 'My cool web development blog :)'
       }
     ],
     link: [
@@ -25,15 +25,19 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#fff', height: '4px', duration: 5000 }, // Change to false if no progress-bar needed
+  loadingIndicator: {
+    name: 'circle',
+    color: '#fa923f'
+  },
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~assets/styles/main.css'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~plugins/core-component.js', '~plugins/date-filter.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -50,5 +54,21 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  env: {
+    baseUrl: process.env.BASE_URL || 'https://nuxtjs-steriods.firebaseio.com'
+  },
+  router: {
+    // base: '/my-app/',
+    // extendRoutes(routes, resolve) {
+    //   routes.push({
+    //     path: '*',
+    //     component: resolve(__dirname, 'pages/index.vue')
+    //   })
+    // }
+  },
+  transition: {
+    name: 'fade',
+    mode: 'out-in'
   }
 }
