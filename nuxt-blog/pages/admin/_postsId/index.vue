@@ -24,23 +24,16 @@ export default {
       )
       .then(res => {
         return {
-          loadedPost: { ...res.data, id: context.params.postId }
+          loadedPost: { ...res.data, id: context.params.postsId }
         }
       })
       .catch(e => context.error())
   },
   methods: {
     onSubmitted(editedPost) {
-      axios
-        .put(
-          'https://nuxtjs-steriods.firebaseio.com/posts/' +
-            this.$route.params.postsId +
-            '.json',
-          editedPost
-        )
-        .then(res => {
-          this.$router.push('/admin')
-        })
+      this.$store.dispatch('editPost', editedPost).then(() => {
+        this.$router.push('/admin')
+      })
     }
   }
 }
