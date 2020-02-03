@@ -56,7 +56,8 @@ export default {
     extend(config, ctx) {}
   },
   env: {
-    baseUrl: process.env.BASE_URL || 'https://nuxtjs-steriods.firebaseio.com'
+    baseUrl: process.env.BASE_URL || 'https://nuxtjs-steriods.firebaseio.com',
+    fbAPIKey: 'AIzaSyDB1F0jJTLKRKfnOMgC33R4G7x2C6QxpTs'
   },
   router: {
     // base: '/my-app/',
@@ -66,6 +67,7 @@ export default {
     //     component: resolve(__dirname, 'pages/index.vue')
     //   })
     // }
+    middleware: 'log'
   },
   transition: {
     name: 'fade',
