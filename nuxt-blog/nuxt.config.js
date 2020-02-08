@@ -1,5 +1,6 @@
 const pkg = require('./package')
 const bodyParser = require('body-parser')
+const axios = require('axios')
 
 export default {
   mode: 'universal', // universal
@@ -76,5 +77,33 @@ export default {
     name: 'fade',
     mode: 'out-in'
   },
-  serverMiddleware: [bodyParser.json(), '~/api']
+  serverMiddleware: [bodyParser.json(), '~/api'],
+  generate: {
+    routes: function() {
+      return axios
+        .get('https://nuxtjs-steriods.firebaseio.com/posts.json')
+        .then(res => {
+          const routes = []
+          for (const key in res.data) {
+            routes.push({
+              route: '/posts/' + key,
+              payload: { postData: res.data[key] }
+            })
+          }
+          return routes
+        })
+      // 2.
+      // return axios
+      //   .get('https://nuxtjs-steriods.firebaseio.com/posts.json')
+      //   .then(res => {
+      //     const routes = []
+      //     for (const key in res.data) {
+      //       routes.push('/posts/' + key)
+      //     }
+      //     return routes
+      //   })
+      // 3.
+      // return ['/posts/-LznVBy1ZSSHGdsr0mbO']
+    }
+  }
 }
